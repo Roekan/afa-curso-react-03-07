@@ -1,0 +1,9 @@
+.errorInput{
+    color: red;
+    border: 2px solid red;
+}
+
+.checkedInput{
+    color: rgb(0, 199, 0);
+    border: 2px solid rgb(0, 210, 0);
+}

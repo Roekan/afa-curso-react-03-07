@@ -37,14 +37,14 @@ export const Login = () => {
 
 
 
-  const submitHandler = (e) => {
+  const submitHandler = (e:any) => {
     e.preventDefault();
     logUser(userCredentials).then((res) => {
       sessionStorage.setItem("token", res.token);
       setLogged(true);
     })
     .catch(error => {console.log(error)
-    let errorMessage = error.response.data.message
+    const errorMessage = error.response.data.message
     setUserError((prevState)=>({
       ...prevState,
       credentials:errorMessage
@@ -79,7 +79,7 @@ export const Login = () => {
                 type={"email"}
                 name={"email"}
                 placeholder={"Introduzca el email"}
-                design={userError.email ? ("errorInput") : ("")}
+                design={userError.email ? ("errorInput") : ("checkedInput")}
                 state={setUserCredentials}
                 errorState={setUserError}
                 password1={""}
@@ -107,7 +107,7 @@ export const Login = () => {
                 type={"password"}
                 name={"password"}
                 placeholder={"Enter your password"}
-                design={userError.password ?("errorInput"):("")}
+                design={userError.password ?("errorInput"):("checkedInput")}
                 state = {setUserCredentials}
                 errorState={setUserError}
                 password1={""}
