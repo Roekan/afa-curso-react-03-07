@@ -4,6 +4,7 @@ import { Header } from './commons/header/Header'
 import {Footer} from './commons/footer/Footer'
 import {Home} from './pages/home/Home'
 import {Login} from './pages/login/Login'
+import {Detail} from './pages/detail/Detail'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="*" element={<h2>'404 Not found'</h2>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/detail/:id" element={<Detail/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

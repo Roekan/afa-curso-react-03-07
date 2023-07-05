@@ -27,20 +27,9 @@ const logoutHandler = ()=>{
           <Col className="col-6 d-flex align-items center, justify-content-around border border-2">
             <div onClick={() => navigate("/")}>REACT</div>
           </Col>
-          {token ? (
-            <>
-            <Col className="col-3 d-flex align-items-center justify-content-around border border-2">
-              <div>HOLA, {decoded?.name}</div>
-            </Col>
-            <Col className="col-3 d-flex align-items-center justify-content-around border border-2">
-            <div onClick={()=>logoutHandler()}>LOGOUT</div>
+          <Col className="col-6 d-flex align-items-center justify-content-around border border-2">
+            <div onClick={() => navigate("/login")}>LOGIN</div>
           </Col>
-          </>
-          ) : (
-            <Col className="col-6 d-flex align-items-center justify-content-around border border-2">
-              <div onClick={() => navigate("/login")}>LOGIN</div>
-            </Col>
-          )}
         </Row>
       </Container>
     </>

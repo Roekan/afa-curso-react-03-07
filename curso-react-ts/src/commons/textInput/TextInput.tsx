@@ -1,9 +1,25 @@
 import React from 'react'
 import { errorCheck } from '../../services/useful';
 
-export const TextInput = ({type, name, placeholder, design, state, errorState, password1}) => {
+interface InputProps{
+  name:string,
+  type:string,
+  placeholder:string,
+  design:string,
+  state:Function,
+  errorState:Function,
+  password1:string,
+  password2:string,
 
-    const inputHandler = ({ target }, state) => {
+
+}
+
+
+
+
+export const TextInput = ({type, name, placeholder, design, state, errorState, password1}:InputProps) => {
+
+    const inputHandler = ({ target }:React.MouseEvent<HTMLButtonElement>, state:InputProps) => {
         const { name, value } = target;
         state((prevState:any) => ({
           ...prevState,
@@ -11,7 +27,7 @@ export const TextInput = ({type, name, placeholder, design, state, errorState, p
         }));
       };
     
-      const errorHandler = ({target}, errorState:any, password1:any) =>{
+      const errorHandler = ({target}:React.MouseEvent<HTMLButtonElement>, errorState:any, password1:any) =>{
         const {name, value} = target;
         const message:(string|undefined) = errorCheck(name, value, password1)
     
