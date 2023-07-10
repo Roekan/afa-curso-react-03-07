@@ -1,0 +1,87 @@
+import { useState } from "react";
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import { TextInput } from "../../common/textInput/TextInput";
+import { logMe } from "../../services/apiCalls";
+import { useNavigate } from "react-router-dom";
+
+
+
+
+export const Login = () => {
+
+const navigate= useNavigate();
+
+interface Credential{
+  email:string;
+  password:string;
+}
+
+const [userCredentials,setUserCredentials] = useState<Credentials>({
+  email:"",
+  password: "",
+})
+
+const [welcome, setWelcome] = useState<string>("");
+
+const submitHandler = (e: React.MouseEvent<HTMLButtonElement>)=>{
+  e.preventDefault();
+
+  logMe(userCredentials)
+  .then((res)=>{
+    console.log(res);
+    localStorage.setItem("credenciales", JSON.stringify(res));
+    setWelcome(res.name);
+
+    setTimeout(()=>{
+      navigate("/")
+    }, 4500)
+  })
+  .catch((error)=>console.log(error));
+};
+
+
+
+
+
+
+  return (
+    <>
+     <Container fluid>
+        {welcome !== "" ? (
+          <>
+            <Row className="justify-content-center">
+              <Col className="d-flex flex-column justify-content-center" xs={10} md={4} xl={3}>
+                Bienvenido de nuevo {welcome}....
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <>
+            <Row className="justify-content-center">
+              <Col
+                className="d-flex flex-column my-2 justify-content-center"
+                xs={10}
+                md={4}
+                xl={3}
+              >
+                <TextInput
+                  name="email"
+                  type="email"
+                  placeholder="write an email..."
+                  state={setUserCredentials}
+                />
+                <TextInput
+                  name="password"
+                  type="password"
+                  placeholder="write a password..."
+                  state={setUserCredentials}
+                />
+                <Button onClick={(e) => submitHandler(e)}>log me!</Button>
+              </Col>
+            </Row>
+          </>
+        )}
+      </Container>
+    </>
+  )
+}
