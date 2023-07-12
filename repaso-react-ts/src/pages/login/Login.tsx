@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { TextInput } from "../../common/TextInput/TextInput";
+import { TextInput } from "../../common/textInput/TextInput";
 import { logMe } from "../../services/apiCalls";
 import { useNavigate } from "react-router-dom";
 
@@ -58,7 +58,7 @@ export const Login = () => {
 
         setTimeout(() => {
           navigate("/");
-        }, 4500);
+        }, 1000);
       })
       .catch((error) => console.log(error));
   };

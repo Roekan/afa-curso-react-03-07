@@ -2,36 +2,44 @@
 import './Header.css';
 
 //Método de conexión en modo lectura a RDX.
-import { useSelector, useDispatch } from "react-redux";
-import { userData } from "../../pages/userSlice";
-
-import { TextInput } from "../textInput/TextInput";
+import { useDispatch, useSelector } from "react-redux";
+import { userData, userout } from "../../pages/userSlice";
+import { deleteFindings, addFindings, addSearch } from '../../pages/searchSlice';
+import { TextInput } from "../TextInput/TextInput";
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-
 import { useNavigate } from "react-router-dom";
-import { userout } from "../../pages/userSlice";
-
+import { bringCharactersName } from '../../services/apiCalls';
 
 
 export const Header = () => {
 
-  const [searchInfo, setSearchInfo] = useState<string>("");
+  const [searchInfo, setSearchInfo] = useState("");
   // const [token, setToken] = useState<string>("");
 
   //Guardo los datos de REDUX en una constante para poder acceder a ellos en Header
   const datosCredencialesRedux = useSelector(userData);
 
-  const dispatch = useDispatch()
-
+  //Instancio Redux en modo escritura....
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
-
+  
   useEffect(() => {
-    if (searchInfo !== "") {
-      console.log("ahora la búsque vale......", searchInfo);
-    }
+
+            //Guardo en Redux el termino de busqueda
+            dispatch(addSearch({search: searchInfo}))
+            //  console.log(searchInfo)
+      bringCharactersName(1,searchInfo)
+        .then(
+          resultado => {
+
+            //Guardo en Redux los resultados de búsqueda
+            dispatch(addFindings({findings: resultado}))
+          }
+        )
+        .catch(error => console.log(error));
+      
+
   }, [searchInfo]);
 
   return (
@@ -63,13 +71,11 @@ export const Header = () => {
                 <Col className="linkDesign" onClick={()=>navigate("/")}>Home</Col>
                 <Col className="linkDesign" onClick={()=>navigate("/login")}>Login</Col>
                 <Col className="linkDesign" onClick={()=>navigate("/register")}>Register</Col>
-                <Col className="linkDesign" onClick={()=>navigate("/tienda")}>Tienda</Col>
               </>
             ) : (
               <>
-                <Col className="linkDesign" onClick={()=>{navigate ("/profile")}}>{datosCredencialesRedux.credentials?.name}</Col>
+                <Col className="linkDesign" onClick={()=>navigate("/profile")}>{datosCredencialesRedux.credentials?.name}</Col>
                 <Col className="linkDesign" onClick={()=>dispatch(userout({credentials: {}}))}>Log out</Col>
-                <Col className="linkDesign" onClick={()=>navigate("/tienda")}>Tienda</Col>
               </>
             )}
           </Row>

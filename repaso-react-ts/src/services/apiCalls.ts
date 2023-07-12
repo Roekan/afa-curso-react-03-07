@@ -16,6 +16,12 @@ export const bringCharacters = async () => {
     return data.results
 }
 
+export const bringCharactersName = async (page, name) => {
+    console.log('NAmE: ', name, 'PAGE: ', page)
+    const {data} = await axios.get(`${RM_URL}/character/?page=${page}&name=${name}`)
+    return data
+}
+
 export const logMe = async (body: LoginData)=>{
 
     // let res = await axios.post(`${URL}/auth/login`, body);
