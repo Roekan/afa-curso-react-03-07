@@ -1,52 +1,71 @@
-import { useState } from "react";
-import { Container, Row, Col, Button } from 'react-bootstrap'
-import { TextInput } from "../../common/textInput/TextInput";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { TextInput } from "../../common/TextInput/TextInput";
 import { logMe } from "../../services/apiCalls";
 import { useNavigate } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+import { login, userData } from "../userSlice";
 
-
-
-export const Login = () => {
-
-const navigate= useNavigate();
-
-interface Credential{
-  email:string;
-  password:string;
+export interface Credentials {
+  email: string;
+  password: string;
 }
 
-const [userCredentials,setUserCredentials] = useState<Credentials>({
-  email:"",
-  password: "",
-})
+export const Login = () => {
+  const navigate = useNavigate();
 
-const [welcome, setWelcome] = useState<string>("");
+  //Conecto a REDUX en modo lectura
+  const reduxUserCredentials = useSelector(userData);
 
-const submitHandler = (e: React.MouseEvent<HTMLButtonElement>)=>{
-  e.preventDefault();
+  //Conecto a REDUX en modo escritura
+  const dispatch = useDispatch();
+  
 
-  logMe(userCredentials)
-  .then((res)=>{
-    console.log(res);
-    localStorage.setItem("credenciales", JSON.stringify(res));
-    setWelcome(res.name);
+  const [userCredentials, setUserCredentials] = useState<Credentials>({
+    email: "",
+    password: "",
+  });
 
-    setTimeout(()=>{
-      navigate("/")
-    }, 4500)
-  })
-  .catch((error)=>console.log(error));
-};
+  const [welcome, setWelcome] = useState<string>("");
 
+  useEffect(()=> {
+    if(reduxUserCredentials.credentials?.token){
+      navigate("/");
+    }
+  },[]);
 
+  useEffect(()=> {
 
+    if(userCredentials.email !== ""){
 
+        console.log(userCredentials)
+    }
 
+  }, [userCredentials])
+
+  const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    logMe(userCredentials)
+      .then((res) => {
+        console.log(res);
+
+        //Guardo en Redux
+        dispatch(login({ credentials: res}))
+
+        setWelcome(res.name);
+
+        setTimeout(() => {
+          navigate("/");
+        }, 4500);
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
-     <Container fluid>
+      <Container fluid>
         {welcome !== "" ? (
           <>
             <Row className="justify-content-center">
@@ -83,5 +102,5 @@ const submitHandler = (e: React.MouseEvent<HTMLButtonElement>)=>{
         )}
       </Container>
     </>
-  )
-}
+  );
+};

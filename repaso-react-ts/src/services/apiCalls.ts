@@ -22,7 +22,7 @@ export const logMe = async (body: LoginData)=>{
 
     const res = {
         token:"ñlkasdñlkasdñlkasdñlk",
-        name: "Alvaro",
+        name: "Alvaro1",
         id:5,
         age:37
     }

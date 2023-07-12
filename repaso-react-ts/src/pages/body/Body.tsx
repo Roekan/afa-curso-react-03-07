@@ -2,6 +2,8 @@ import {Navigate,Route, Routes} from 'react-router-dom'
 import { Login } from '../login/Login'
 import { Register } from '../register/Register'
 import { Home } from '../home/Home'
+import { Profile } from '../userProfile/UserProfile'
+import { Tienda } from '../tienda/Tienda'
 
 
 export const Body = () => {
@@ -10,8 +12,10 @@ export const Body = () => {
     <Routes>
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/" element={<Home />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Register" element={<Register  />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register  />} />
+        <Route path="profile" element={<Profile  />} />
+        <Route path="tienda" element={<Tienda  />} />
     </Routes>
     </>
   )
